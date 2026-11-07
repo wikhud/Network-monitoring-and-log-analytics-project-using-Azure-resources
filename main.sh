@@ -7,7 +7,7 @@ mkdir /home/adminuser/logs_from_storage
 mkdir /home/adminuser/new_logs
 cat >> /home/adminuser/extract_new_logs.sh <<EOL
 sudo azcopy login --identity
-sudo azcopy sync 'https://storagebnrrsrcz67anm.blob.core.windows.net/insights-logs-networksecuritygroupflowevent' '/home/adminuser/logs_from_storage' --recursive
+sudo azcopy sync 'https://storage1.blob.core.windows.net/insights-logs-networksecuritygroupflowevent' '/home/adminuser/logs_from_storage' --recursive
 /usr/bin/find /home/adminuser/logs_from_storage -type f -mmin -10 | while IFS= read -r f; do cp -v "\$f" "/home/adminuser/new_logs/\${f//\//_}"; done
 EOL
 chmod +x extract_new_logs.sh
@@ -54,8 +54,8 @@ cat >> /etc/logstash/conf.d/logstash.conf <<EOL
 input { 
 azureblob 
  { 
-     storage_account_name => "storagebnrrsrcz67anm" 
-     storage_access_key => "mpinr1H78isK5CeSKpeK1aUQ2Ckv52Rsi+wIK3uHJYTL5J2fL+1KEXLfecuuoHmjrgwM8ph8FGya60fBszwwjg==" 
+     storage_account_name => "storage1" 
+     storage_access_key => "actual-key"
      container => "insights-logs-networksecuritygroupflowevent" 
      codec => "json" 
      file_head_bytes => 12 
